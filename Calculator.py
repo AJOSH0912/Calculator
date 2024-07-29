@@ -78,3 +78,35 @@ class CalculatorApp(ctk.CTk):
             self.entry.insert(ctk.END, current_text + '**')
         elif char in ['sin⁻¹', 'cos⁻¹', 'tan⁻¹']:
             current_text = self.entry.get()
+
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + char)
+        elif char in ['exp', 'log']:
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + char)
+        else:
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + char)
+
+    def evaluate_expression(self, expression):
+        # Replace trigonometric, sqrt, and other function names with their corresponding math function calls
+        expression = expression.lower()
+        expression = re.sub(r'sin(\d+)', r'math.sin(math.radians(\1))', expression)
+        expression = re.sub(r'cos(\d+)', r'math.cos(math.radians(\1))', expression)
+        expression = re.sub(r'tan(\d+)', r'math.tan(math.radians(\1))', expression)
+        expression = re.sub(r'√(\d+)', r'math.sqrt(\1)', expression)
+        expression = re.sub(r'sin⁻¹(\d+)', r'math.degrees(math.asin(\1))', expression)
+        expression = re.sub(r'cos⁻¹(\d+)', r'math.degrees(math.acos(\1))', expression)
+        expression = re.sub(r'tan⁻¹(\d+)', r'math.degrees(math.atan(\1))', expression)
+        expression = re.sub(r'(\d+)!', r'math.factorial(\1)', expression)
+        expression = re.sub(r'exp(\d+)', r'math.exp(\1)', expression)
+        expression = re.sub(r'log(\d+)', r'math.log(\1)', expression)
+        
+        # Evaluate the modified expression
+        return eval(expression)
+
+if __name__ == "__main__":
+    app = CalculatorApp()
+    app.mainloop()
