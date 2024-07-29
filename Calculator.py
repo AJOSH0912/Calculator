@@ -47,3 +47,34 @@ class CalculatorApp(ctk.CTk):
             if col > 4:
                 col = 0
                 row += 1
+
+    def on_button_click(self, char):
+        if char == 'C':
+            self.entry.delete(0, ctk.END)
+        elif char == '=':
+            try:
+                expression = self.entry.get()
+                result = self.evaluate_expression(expression)
+                self.entry.delete(0, ctk.END)
+                self.entry.insert(ctk.END, str(result))
+            except Exception as e:
+                self.entry.delete(0, ctk.END)
+                self.entry.insert(ctk.END, "Error")
+        elif char == '√':
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + '√')
+        elif char == 'x²':
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + '**2')
+        elif char == '!':
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + '!')
+        elif char == '^':
+            current_text = self.entry.get()
+            self.entry.delete(0, ctk.END)
+            self.entry.insert(ctk.END, current_text + '**')
+        elif char in ['sin⁻¹', 'cos⁻¹', 'tan⁻¹']:
+            current_text = self.entry.get()
